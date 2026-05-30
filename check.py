@@ -4,7 +4,7 @@ import smtplib
 import os
 from email.mime.text import MIMEText
 
-URL = "https://rvrjcce.ac.in/examcell/results/resultsN.php"
+URL = "https://rvrjcce.ac.in/examcell/results/"
 
 response = requests.get(URL)
 soup = BeautifulSoup(response.text, "html.parser")
@@ -44,7 +44,7 @@ New RVRJC Result Detected
 {latest_result}
 
 Website:
-https://rvrjcce.ac.in/examcell/results/resultsN.php
+https://rvrjcce.ac.in/examcell/results/
 """
 
     msg = MIMEText(body)
