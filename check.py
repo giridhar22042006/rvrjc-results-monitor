@@ -6,7 +6,8 @@ from email.mime.text import MIMEText
 
 URL = "https://rvrjcce.ac.in/examcell/results/"
 
-response = requests.get(URL)
+response = requests.get(URL, timeout=30)
+response.raise_for_status()
 soup = BeautifulSoup(response.text, "html.parser")
 
 rows = soup.find_all("tr")
@@ -16,7 +17,15 @@ latest_result = None
 for row in rows:
     text = row.get_text(" ", strip=True)
 
-    if len(text) > 20:
+    if any(keyword in text for keyword in [
+        "B.Tech",
+        "BBA",
+        "M.Tech",
+        "MBA",
+        "Revaluation",
+        "Supplementary",
+        "Regular Examination"
+    ]):
         latest_result = text
         break
 if latest_result is None:
