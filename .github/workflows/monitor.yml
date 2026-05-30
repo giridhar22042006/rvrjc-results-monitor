@@ -1,8 +1,12 @@
 name: RVRJC Results Monitor
 
+permissions:
+  contents: write
+
 on:
   schedule:
     - cron: '*/30 * * * *'
+
   workflow_dispatch:
 
 jobs:
@@ -19,7 +23,8 @@ jobs:
           python-version: '3.11'
 
       - name: Install Dependencies
-        run: pip install -r requirements.txt
+        run: |
+          pip install -r requirements.txt
 
       - name: Run Script
         env:
@@ -27,3 +32,17 @@ jobs:
           EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
           EMAIL_TO: ${{ secrets.EMAIL_TO }}
         run: python check.py
+
+      - name: Commit updated last_result.txt
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+
+          git add last_result.txt
+
+          if ! git diff --staged --quiet; then
+            git commit -m "Auto update last_result.txt"
+            git push
+          else
+            echo "No changes to commit"
+          fi
