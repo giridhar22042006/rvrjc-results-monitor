@@ -17,14 +17,11 @@ latest_result = None
 for row in rows:
     text = row.get_text(" ", strip=True)
 
-    if any(keyword in text for keyword in [
+    if any(course in text for course in [
         "B.Tech",
         "BBA",
         "M.Tech",
-        "MBA",
-        "Revaluation",
-        "Supplementary",
-        "Regular Examination"
+        "MBA"
     ]):
         latest_result = text
         break
