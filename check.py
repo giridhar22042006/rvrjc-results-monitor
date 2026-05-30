@@ -16,10 +16,9 @@ latest_result = None
 for row in rows:
     text = row.get_text(" ", strip=True)
 
-    if "B.Tech." in text or "B.Tech.," in text:
+    if len(text) > 20:
         latest_result = text
         break
-
 if latest_result is None:
     print("No result found")
     exit()
